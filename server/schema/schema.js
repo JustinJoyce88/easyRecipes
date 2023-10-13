@@ -2,7 +2,7 @@ const { gql } = require('apollo-server');
 
 exports.typeDefs = gql`
   type Query {
-    recipes: [Recipe!]!
+    recipes(filter: RecipesFilterInput): [Recipe!]!
     recipe(id: ID!): Recipe
     categories: [Category!]!
     category(id: ID!): Category
@@ -25,26 +25,29 @@ exports.typeDefs = gql`
     ingredients: [String!]!
     image: String!
     instruction: [String!]!
+    curatorFavorited: Boolean!
     category: Category!
   }
 
   type Category {
     id: ID!
     name: String!
+    image: String!
     recipes: [Recipe!]!
   }
 
-  input RecipeFilterInput {
-    onSale: Boolean
-    avgRating: Int
+  input RecipesFilterInput {
+    curatorFavorited: Boolean
   }
 
   input AddCategoryInput {
     name: String!
+    image: String!
   }
 
   input UpdateCategoryInput {
-    name: String!
+    name: String
+    image: String
   }
 
   input AddRecipeInput {
@@ -54,17 +57,19 @@ exports.typeDefs = gql`
     ingredients: [String!]!
     image: String!
     instruction: [String!]!
+    curatorFavorited: Boolean!
     categoryId: ID!
   }
 
   input UpdateRecipeInput {
-    name: String!
-    description: String!
-    cookTime: String!
-    ingredients: [String!]!
-    image: String!
-    instruction: [String!]!
-    categoryId: ID!
+    name: String
+    description: String
+    cookTime: String
+    ingredients: [String!]
+    image: String
+    instruction: [String!]
+    curatorFavorited: Boolean
+    categoryId: ID
   }
 `;
 

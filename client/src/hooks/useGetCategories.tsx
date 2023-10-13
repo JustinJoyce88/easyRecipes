@@ -4,7 +4,9 @@ import client from '../api/client';
 export const GET_CATEGORIES = gql`
   query getCategories {
     categories {
+      id
       name
+      image
     }
   }
 `;

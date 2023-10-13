@@ -4,6 +4,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
+    backgroundColor: 'white'
   },
   containerNoCenter: {
     flex: 1,
@@ -18,7 +19,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     width: Dimensions.get('window').width / 1.5,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    marginBottom: 5,
   },
   button2: {
     backgroundColor: 'white',
@@ -65,13 +67,13 @@ const styles = StyleSheet.create({
   cardTitleText: {
     fontSize: 20,
   },
-  image: {  height: 20, width: 20 },
+  image: { height: 20, width: 20 },
   headerText: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
     alignSelf: 'center',
-    marginTop: 5
+    marginTop: 5,
   },
   input: {
     height: 60,
@@ -86,7 +88,16 @@ const styles = StyleSheet.create({
       width: 5,
       height: 5,
     },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
+    elevation: 3,
+  },
+  intenseShadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 5,
+      height: 5,
+    },
+    shadowOpacity: 0.6,
     elevation: 3,
   },
   error: {
@@ -94,7 +105,27 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 12,
     textAlign: 'center',
-  }
+  },
+  success: {
+    marginTop: 5,
+    color: 'green',
+    fontSize: 12,
+    textAlign: 'center',
+  },
+  categoryCard: {
+    height: 100,
+    width: 120,
+    margin: 5,
+    borderRadius: 5,
+    backgroundColor: 'brown',
+  },
+  categoryImage: {
+    opacity: 0.9,
+    height: 100,
+    width: 120,
+    borderRadius: 5,
+    resizeMode: 'cover',
+  },
 });
 
 export default styles;

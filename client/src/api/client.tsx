@@ -3,7 +3,7 @@ import { setContext } from '@apollo/client/link/context';
 import { store } from '../store/store';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/',
+  uri: 'http://192.168.0.10:4000/',
 });
 
 // Create a function to retrieve the latest headers

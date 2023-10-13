@@ -1,20 +1,44 @@
-import { View, Image } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import React from 'react';
-import Login from '../components/Login';
 import Header from '../components/Header';
+import Hero from '../components/Hero';
 import CategoryList from '../components/CategoryList';
+import FavoritesList from '../components/FavoritesList';
 import SettingsBtn from '../components/SettingsBtn';
-import styles from '../styles/styles';
 
 const Home = (props: any) => {
   const { navigation } = props;
   return (
-    <View style={styles.container}>
-      <Header />
-      <CategoryList />
+    <View style={customStyles.container}>
+      <Hero />
+      <ScrollView
+        style={customStyles.scrollView}
+        contentContainerStyle={customStyles.contentContainer}
+      >
+        <View style={{ backgroundColor: 'white' }}>
+          <Header headerTitle="Explore Categories" />
+          <CategoryList />
+          <Header headerTitle="Our Favorites" />
+          <FavoritesList />
+        </View>
+      </ScrollView>
       <SettingsBtn navigation={navigation} />
     </View>
   );
 };
+
+const customStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  contentContainer: {
+    zIndex: 10,
+    paddingTop: 200,
+  },
+});
 
 export default Home;

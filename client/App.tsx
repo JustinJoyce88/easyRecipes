@@ -21,7 +21,7 @@ const App = () => {
           <SafeAreaView style={styles.container}>
             <NavigationContainer>
               <Stack.Navigator initialRouteName="Home">
-                <Stack.Screen options={{ title: 'Easy Recipes' }} name="Home" component={Home} />
+                <Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
                 <Stack.Screen name="Recipe" component={Recipe} />
                 <Stack.Screen
                   options={{ headerBackTitle: '' }}
@@ -40,6 +40,7 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white'
   },
 });
 

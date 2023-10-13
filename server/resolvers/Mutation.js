@@ -3,20 +3,31 @@ const Recipe = require('../models/Recipe');
 
 exports.Mutation = {
   addCategory: (root, { input }) => {
-    const { name } = input;
+    const { name, image } = input;
     const newCategory = new Category({
       name,
+      image,
     });
     return newCategory.save();
   },
-  addRecipe: (root, { input }, { db }) => {
-    const { name, description, cookTime, ingredients, image, instruction, categoryId } = input;
+  addRecipe: (root, { input }) => {
+    const {
+      name,
+      description,
+      cookTime,
+      ingredients,
+      image,
+      curatorFavorited,
+      instruction,
+      categoryId,
+    } = input;
     const newRecipe = new Recipe({
       name,
       description,
       cookTime,
       ingredients,
       image,
+      curatorFavorited,
       instruction,
       categoryId,
     });

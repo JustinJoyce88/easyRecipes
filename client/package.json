@@ -16,6 +16,7 @@
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/stack": "^6.3.17",
     "@reduxjs/toolkit": "^1.9.5",
+    "@types/react-native-vector-icons": "^6.4.15",
     "apollo-client": "^2.6.10",
     "expo": "~49.0.10",
     "expo-secure-store": "~12.3.1",

@@ -1,9 +1,7 @@
 import React from 'react';
-import { View, FlatList, StyleSheet, Text } from 'react-native';
+import { View, FlatList, StyleSheet, Text, Dimensions } from 'react-native';
 import CategoryItem from './CategoryItem';
-import { useGetCategories } from '../hooks/useCreateCategory';
-
-
+import { useGetCategories } from '../hooks/useGetCategories';
 
 const CategoryList = () => {
   const { data, loading, error } = useGetCategories();
@@ -22,6 +20,7 @@ const CategoryList = () => {
         keyExtractor={(item) => item.name}
         horizontal
         showsHorizontalScrollIndicator={false}
+        maxToRenderPerBatch={3}
       />
     </View>
   );
@@ -30,9 +29,6 @@ const CategoryList = () => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 5,
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
   },
   text: {
     fontSize: 24,
