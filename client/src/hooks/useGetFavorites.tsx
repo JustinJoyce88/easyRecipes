@@ -2,7 +2,7 @@ import { useQuery, gql } from '@apollo/client';
 import client from '../api/client';
 
 export const GET_FAVORITES = gql`
-query getFavorites($filter: RecipesFilterInput) {
+query GetFavorites($filter: RecipesFilterInput) {
   recipes(filter: $filter) {
     id
     name
@@ -14,7 +14,7 @@ query getFavorites($filter: RecipesFilterInput) {
 `;
 
 export const useGetFavorites = () => {
-  const { data, loading, error } = useQuery(GET_FAVORITES, {
+  const { data, loading, error, refetch } = useQuery(GET_FAVORITES, {
     variables: {
       filter: {
         curatorFavorited: true,
@@ -26,5 +26,6 @@ export const useGetFavorites = () => {
     loading,
     error,
     data,
+    refetch,
   };
 };

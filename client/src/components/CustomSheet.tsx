@@ -1,63 +1,53 @@
+import React, { useRef, useState, useEffect, ReactNode } from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
   StyleSheet,
+  TextInput,
+  TouchableOpacity,
   ActivityIndicator,
-  Keyboard,
-  TouchableWithoutFeedback,
 } from 'react-native';
-import React, { useState, ReactNode } from 'react';
-import styles from '../styles/styles';
-import { TextInput } from 'react-native-gesture-handler';
+import ActionSheet, { SheetProps, SheetManager } from 'react-native-actions-sheet';
 import { useMutation, gql } from '@apollo/client';
-import renderIf from '../utils/renderIf';
 import client from '../api/client';
-import { GET_CATEGORIES } from '../hooks/useGetCategories';
+import { GET_RECIPE } from '../hooks/useGetRecipe';
 import { checkIfValidUrl } from '../utils/checkIfValidUrl';
+import styles from '../styles/styles';
+import renderIf from '../utils/renderIf';
 
-const CREATE_CATEGORY = gql`
-  mutation CreateCategory($input: AddCategoryInput!) {
-    addCategory(input: $input) {
+const UPDATE_RECIPE = gql`
+  mutation UpdateRecipe($updateRecipeId: ID!, $input: UpdateRecipeInput!) {
+    updateRecipe(id: $updateRecipeId, input: $input) {
       name
+      id
     }
   }
 `;
 
-const AddCategory = () => {
-  const [name, setName] = useState('');
-  const [url, setURL] = useState('');
+const CustomSheet = (props: SheetProps) => {
+  const { payload } = props;
+  const recipeId = payload?.data?.recipe?.id;
+  const [name, setName] = useState(payload?.data?.recipe?.name);
+  const [url, setURL] = useState(payload?.data?.recipe?.image);
   const [submitSuccess, setSubmitSuccess] = useState('');
   const [altError, setAltError] = useState<string | unknown>('');
-  const [createCategory, { loading, error }] = useMutation(CREATE_CATEGORY, {
+  const [updateRecipe, { loading, error }] = useMutation(UPDATE_RECIPE, {
     client: client,
-    refetchQueries: [{ query: GET_CATEGORIES }],
+    refetchQueries: [{ query: GET_RECIPE, variables: { recipeId } }],
   });
 
   const cantSubmit = !name || !url;
 
-  const dismissKeyboard = () => {
-    Keyboard.dismiss();
-  };
+  const handleupdateRecipe = async () => {
+    if (!name) return setAltError('Please enter a recipe name');
+    if (!url) return setAltError('Please enter a URL');
+    if (!checkIfValidUrl(url)) return setAltError('Please enter a valid URL');
 
-  const handleCreateCategory = async () => {
-    if (!name) {
-      return setAltError('Please enter a name');
-    }
-    if (!url) {
-      return setAltError('Please enter a URL');
-    }
-    if (!checkIfValidUrl(url)) {
-      return setAltError('Please enter a valid URL');
-    }
     try {
-       const { data } = await createCategory({ variables: { input: { name, image: url } } });
-      if (data?.addCategory?.name) {
-        setSubmitSuccess(`${data.addCategory.name} added as a category!`);
-        setName('');
-        setURL('');
-        setTimeout(() => setSubmitSuccess(''), 3000);
-      }
+      const { data } = await updateRecipe({
+        variables: { updateRecipeId: recipeId, input: { name, image: url } },
+      });
+      if (data?.updateRecipe?.id) SheetManager.hide('custom-sheet');
     } catch (error) {
       setAltError(error);
     }
@@ -73,13 +63,13 @@ const AddCategory = () => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={dismissKeyboard}>
-      <View style={styles.container}>
+    <ActionSheet headerAlwaysVisible id={props.sheetId}>
+      <View style={customStyles.container}>
         <TextInput
           value={name}
-          maxLength={18}
+          maxLength={30}
           style={[styles.input, styles.shadow]}
-          placeholder="Category name"
+          placeholder="Recipe name"
           onChangeText={(val) => {
             if (val) {
               setAltError('');
@@ -101,7 +91,7 @@ const AddCategory = () => {
             styles.shadow,
             cantSubmit ? customStyles.disabledButton : customStyles.customButton,
           ]}
-          onPress={handleCreateCategory}
+          onPress={handleupdateRecipe}
         >
           {renderIf(
             !loading,
@@ -120,11 +110,19 @@ const AddCategory = () => {
         {renderIf(altError, <Text style={styles.error}>Error: {altError as ReactNode}</Text>)}
         {renderIf(submitSuccess, <Text style={styles.success}>{submitSuccess}</Text>)}
       </View>
-    </TouchableWithoutFeedback>
+    </ActionSheet>
   );
 };
 
 const customStyles = StyleSheet.create({
+  container: {
+    height: '80%',
+  },
+  text: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'rgba(0, 0, 0, 0.7)',
+  },
   customButton: {
     shadowColor: 'rgba(75,181,67, 0.5)',
     marginTop: 10,
@@ -142,4 +140,5 @@ const customStyles = StyleSheet.create({
     color: 'rgba(255, 0, 0, 0.5)',
   },
 });
-export default AddCategory;
+
+export default CustomSheet;

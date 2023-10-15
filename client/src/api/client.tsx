@@ -6,9 +6,7 @@ const httpLink = createHttpLink({
   uri: 'http://192.168.0.10:4000/',
 });
 
-// Create a function to retrieve the latest headers
 const getHeaders = () => {
-  // Replace with your logic to get the latest headers
   const authToken = store.getState().persist.authToken;
 
   return {
@@ -16,11 +14,9 @@ const getHeaders = () => {
   };
 };
 
-// Create a new Apollo Link that updates the headers before each request
 const authLink = setContext((_, { headers }) => {
   const updatedHeaders = getHeaders();
 
-  // Return the updated headers to the context
   return {
     headers: {
       ...headers,

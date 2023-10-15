@@ -8,6 +8,10 @@ import SettingsBtn from '../components/SettingsBtn';
 
 const Home = (props: any) => {
   const { navigation } = props;
+  const handleCallback = () => {
+    console.log('Callback function triggered');
+  };
+  
   return (
     <View style={customStyles.container}>
       <Hero />
@@ -19,7 +23,7 @@ const Home = (props: any) => {
           <Header headerTitle="Explore Categories" />
           <CategoryList />
           <Header headerTitle="Our Favorites" />
-          <FavoritesList />
+          <FavoritesList navigation={navigation} />
         </View>
       </ScrollView>
       <SettingsBtn navigation={navigation} />

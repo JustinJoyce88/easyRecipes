@@ -1,17 +1,15 @@
 import React from 'react';
-import { View, FlatList, StyleSheet, Text, Dimensions } from 'react-native';
+import { View, FlatList, StyleSheet, Text } from 'react-native';
 import CategoryItem from './CategoryItem';
 import { useGetCategories } from '../hooks/useGetCategories';
+import NetworkRefresh from './NetworkRefresh';
+import LoadingData from './LoadingData';
 
 const CategoryList = () => {
-  const { data, loading, error } = useGetCategories();
+  const { data, loading, error, refetch } = useGetCategories();
 
-  if (loading) {
-    return <Text>Loading...</Text>;
-  }
-  if (error) {
-    return <Text>Error: {error.message}</Text>;
-  }
+  if (loading) return <LoadingData />;
+  if (error) return <NetworkRefresh message={error.message} refresh={() => refetch()} />;
   return (
     <View style={styles.container}>
       <FlatList
@@ -29,12 +27,7 @@ const CategoryList = () => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 5,
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-  },
+  }
 });
 
 export default CategoryList;

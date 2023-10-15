@@ -3,19 +3,26 @@ import { Text, TouchableOpacity, Image, StyleSheet, View, Dimensions } from 'rea
 import styles from '../styles/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-type Category = {
-  name: string;
-  image: string;
-  cookTime: string;
-  description: string;
+type FavoriteItemProps = {
+  item: {
+    id: string;
+    name: string;
+    image: string;
+    cookTime: string;
+    description: string;
+  };
+  navigation: any;
+  refresh: () => void;
 };
-const FavoriteItem = ({ item }: { item: Category }) => {
+const FavoriteItem = (props: FavoriteItemProps) => {
+  const { item, navigation } = props;
   const { name, image, cookTime, description } = item;
+
+  const handlePress = () =>
+    navigation.navigate('Recipe', { recipeId: item.id, onGoBack: () => props.refresh() });
+
   return (
-    <TouchableOpacity
-      onPress={() => console.log(item)}
-      style={[customStyles.favoriteCard, styles.shadow]}
-    >
+    <TouchableOpacity onPress={handlePress} style={[customStyles.favoriteCard, styles.shadow]}>
       <View style={{ flexDirection: 'row' }}>
         <View style={customStyles.favoriteCardImageContainer}>
           <Image
@@ -31,7 +38,6 @@ const FavoriteItem = ({ item }: { item: Category }) => {
               <Icon name="time-outline" size={18} color="black" />
               {cookTime}
             </Text>
-
             <Text style={customStyles.descriptionText}>{description}</Text>
           </View>
         </View>
@@ -41,11 +47,6 @@ const FavoriteItem = ({ item }: { item: Category }) => {
 };
 
 const customStyles = StyleSheet.create({
-  container: {
-    marginTop: 5,
-    flex: 1,
-    alignItems: 'center',
-  },
   text: {
     textAlign: 'center',
     fontWeight: 'bold',

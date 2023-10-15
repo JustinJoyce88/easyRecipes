@@ -8,13 +8,16 @@ type Category = {
 };
 const CategoryItem = ({ item }: { item: Category }) => {
   const { name, image } = item;
+
+  const handlePress = () => {
+    console.log(item);
+  };
+
   return (
     <View>
       <TouchableOpacity
         style={[styles.categoryCard, styles.shadow]}
-        onPress={() => {
-          console.log(item);
-        }}
+        onPress={handlePress}
       >
         <Image
           source={{ uri: image }}
@@ -28,11 +31,6 @@ const CategoryItem = ({ item }: { item: Category }) => {
 };
 
 const customStyles = StyleSheet.create({
-  container: {
-    marginTop: 5,
-    flex: 1,
-    alignItems: 'center',
-  },
   text: {
     backgroundColor: 'white',
     marginTop: 5,

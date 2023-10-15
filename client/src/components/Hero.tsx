@@ -2,15 +2,29 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
 import styles from '../styles/styles';
 
-const Hero = () => {
+const Hero = ({ img }: { img?: string }) => {
+  const renderHeroContent = () => {
+    if (!img) {
+      return (
+        <>
+          <Text style={[customStyles.text1, styles.intenseShadow]}>Welcome to</Text>
+          <Text style={[customStyles.text2, styles.intenseShadow]}>the YumYumHub</Text>
+          <Text style={[customStyles.text3, styles.intenseShadow]}>(Thanks ChatGPT)</Text>
+        </>
+      );
+    }
+    return null;
+  };
+
   return (
-    <View style={{position: 'absolute', top: 0, left: 0}}>
+    <View style={{ position: 'absolute', top: 0, left: 0 }}>
       <View style={customStyles.container}>
-        <Image style={customStyles.heroImage} source={require('../assets/images/hero.png')} />
+        <Image
+          style={customStyles.heroImage}
+          source={img ? { uri: img } : require('../assets/images/hero.png')}
+        />
       </View>
-      <Text style={[customStyles.text1, styles.intenseShadow]}>Welcome to</Text>
-      <Text style={[customStyles.text2, styles.intenseShadow]}>the YumYumHub</Text>
-      <Text style={[customStyles.text3, styles.intenseShadow]}>(Thanks ChatGPT)</Text>
+      {renderHeroContent()}
     </View>
   );
 };
