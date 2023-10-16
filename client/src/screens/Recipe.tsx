@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, ScrollView, Alert } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Alert, Image } from 'react-native';
 import renderIf from '../utils/renderIf';
 import client from '../api/client';
 import { useGetRecipe } from '../hooks/useGetRecipe';
@@ -96,7 +96,7 @@ const Recipe = (props: any) => {
 
   return (
     <View style={customStyles.container}>
-      <Hero img={data?.recipe?.image} />
+      <Hero img={data?.recipe?.image} opacity={1} />
       <ScrollView
         style={customStyles.scrollView}
         contentContainerStyle={customStyles.contentContainer}
@@ -124,14 +124,16 @@ const Recipe = (props: any) => {
             </Text>
             {renderIf(
               data?.recipe?.curatorFavorited,
-              <View style={{ flexDirection: 'row', marginTop: 30 }}>
-                <Text style={customStyles.cookTimeText}>
-                  <Icon name="heart" size={18} color="red" /> We love this one!
-                </Text>
+              <View style={{ flexDirection: 'row', marginTop: 20 }}>
+                <Image
+                  style={{ width: 40, height: 40 }}
+                  source={require('../assets/images/icon.png')}
+                />
+                <Text style={customStyles.favoritedText}>YumYum Seal of Approval!</Text>
               </View>
             )}
           </View>
-          <View style={{ backgroundColor: '#cdebf9', padding: 10 }}>
+          <View style={{ padding: 10 }}>
             {renderIngredients()}
             {renderInstructions()}
           </View>
@@ -144,7 +146,7 @@ const Recipe = (props: any) => {
 const customStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#f9ede5',
   },
   headerText: {
     fontSize: 26,
@@ -155,6 +157,11 @@ const customStyles = StyleSheet.create({
   },
   cookTimeText: {
     paddingTop: 10,
+    fontSize: 16,
+  },
+  favoritedText: {
+    paddingTop: 10,
+    paddingLeft: 5,
     fontSize: 16,
   },
   instructionsText: {
@@ -168,7 +175,7 @@ const customStyles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   textContainer: {
-    backgroundColor: 'white',
+    backgroundColor: '#f9ede5',
   },
   scrollView: {
     flex: 1,

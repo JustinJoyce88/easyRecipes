@@ -16,12 +16,12 @@ const CategoryItem = ({ item }: { item: Category }) => {
   return (
     <View>
       <TouchableOpacity
-        style={[styles.categoryCard, styles.shadow]}
+        style={[customStyles.categoryCard, styles.shadow]}
         onPress={handlePress}
       >
         <Image
           source={{ uri: image }}
-          style={styles.categoryImage}
+          style={customStyles.categoryImage}
           defaultSource={require('../assets/images/missingImage.png')}
         />
       </TouchableOpacity>
@@ -32,12 +32,25 @@ const CategoryItem = ({ item }: { item: Category }) => {
 
 const customStyles = StyleSheet.create({
   text: {
-    backgroundColor: 'white',
     marginTop: 5,
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 14,
     color: '#333',
+  },
+  categoryCard: {
+    height: 100,
+    width: 120,
+    margin: 5,
+    borderRadius: 5,
+    backgroundColor: 'brown',
+  },
+  categoryImage: {
+    opacity: 0.9,
+    height: 100,
+    width: 120,
+    borderRadius: 5,
+    resizeMode: 'cover',
   },
 });
 

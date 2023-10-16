@@ -11,12 +11,10 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ApolloProvider } from '@apollo/react-hooks';
 import client from './src/api/client';
-import { SheetProvider } from "react-native-actions-sheet";
-import "./sheets";
+import { SheetProvider } from 'react-native-actions-sheet';
+import './sheets';
 
-LogBox.ignoreLogs([
-  'Non-serializable values were found in the navigation state',
-]);
+LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -25,19 +23,33 @@ const App = () => {
       <ApolloProvider client={client}>
         <PersistGate loading={null} persistor={persistor}>
           <SheetProvider>
-          <SafeAreaView style={styles.container}>
-            <NavigationContainer>
-              <Stack.Navigator initialRouteName="Home">
-                <Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
-                <Stack.Screen name="Recipe" component={Recipe} />
-                <Stack.Screen
-                  options={{ headerBackTitle: '' }}
-                  name="Add Category"
-                  component={AddCategory}
-                />
-              </Stack.Navigator>
-            </NavigationContainer>
-          </SafeAreaView>
+            <SafeAreaView style={styles.container}>
+              <NavigationContainer>
+                <Stack.Navigator initialRouteName="Home">
+                  <Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
+                  <Stack.Screen
+                    options={{
+                      headerTitle: '',
+                      headerBackTitleStyle: { color: 'white' },
+                      headerStyle: { backgroundColor: 'black' },
+                      headerTintColor: 'white',
+                    }}
+                    name="Recipe"
+                    component={Recipe}
+                  />
+                  <Stack.Screen
+                    options={{
+                      headerTitle: '',
+                      headerBackTitleStyle: { color: 'white' },
+                      headerStyle: { backgroundColor: 'black' },
+                      headerTintColor: 'white',
+                    }}
+                    name="Add Category"
+                    component={AddCategory}
+                  />
+                </Stack.Navigator>
+              </NavigationContainer>
+            </SafeAreaView>
           </SheetProvider>
         </PersistGate>
       </ApolloProvider>
@@ -48,7 +60,7 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'black',
   },
 });
 

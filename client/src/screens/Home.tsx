@@ -8,18 +8,15 @@ import SettingsBtn from '../components/SettingsBtn';
 
 const Home = (props: any) => {
   const { navigation } = props;
-  const handleCallback = () => {
-    console.log('Callback function triggered');
-  };
-  
+
   return (
     <View style={customStyles.container}>
-      <Hero />
+      <Hero opacity={0.6} />
       <ScrollView
         style={customStyles.scrollView}
         contentContainerStyle={customStyles.contentContainer}
       >
-        <View style={{ backgroundColor: 'white' }}>
+        <View style={{ backgroundColor: '#f9ede5' }}>
           <Header headerTitle="Explore Categories" />
           <CategoryList />
           <Header headerTitle="Our Favorites" />
@@ -34,7 +31,7 @@ const Home = (props: any) => {
 const customStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#f9ede5',
   },
   scrollView: {
     flex: 1,
