@@ -3,6 +3,7 @@ const Recipe = require('../models/Recipe');
 const { shuffleArray } = require('../utils/shuffleArray');
 
 exports.Query = {
+  hello: () => "world",
   recipes: async (root, { filter }) => {
     const { curatorFavorited } = filter;
     let filteredRecipes = await Recipe.find().sort({ name: 'asc' });

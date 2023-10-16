@@ -3,7 +3,7 @@ import { setContext } from '@apollo/client/link/context';
 import { store } from '../store/store';
 
 const httpLink = createHttpLink({
-  uri: 'http://192.168.0.10:4000/',
+  uri: 'https://easy-recipes-lyart.vercel.app/graphql',
 });
 
 const getHeaders = () => {

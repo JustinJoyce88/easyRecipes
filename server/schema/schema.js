@@ -2,6 +2,7 @@ const { gql } = require('apollo-server');
 
 exports.typeDefs = gql`
   type Query {
+    hello: String!
     recipes(filter: RecipesFilterInput): [Recipe!]!
     recipe(id: ID!): Recipe
     categories: [Category!]!
