@@ -1,9 +1,14 @@
 import { ApolloClient, InMemoryCache, createHttpLink, ApolloLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { store } from '../store/store';
+import { RN_ENV_API_URL_PROD, RN_ENV_API_URL_DEV } from '@env';
+
+const PROD = false;
+const API_URL = PROD ? RN_ENV_API_URL_PROD : RN_ENV_API_URL_DEV;
+console.log("🚀 ~ file: client.js:8 ~ API_URL:", API_URL)
 
 const httpLink = createHttpLink({
-  uri: 'https://easy-recipes-lyart.vercel.app/graphql',
+  uri: API_URL,
 });
 
 const getHeaders = () => {

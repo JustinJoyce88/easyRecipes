@@ -15,10 +15,19 @@ export const useGetCategories = () => {
   const { data, loading, error, refetch } = useQuery(GET_CATEGORIES, {
     client: client,
   });
+  const customRefetch = async () => {
+    try {
+      await refetch();
+    } catch (error) {
+      console.log("🚀 ~ file: useGetCategories.tsx:22 ~ customRefetch ~ error:", error)
+      // Handle the error
+    }
+  };
+  
   return {
     loading,
     error,
     data,
-    refetch,
+    refetch: customRefetch,
   };
 };
