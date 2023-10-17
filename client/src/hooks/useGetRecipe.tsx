@@ -12,6 +12,8 @@ export const GET_RECIPE = gql`
       ingredients
       instruction
       name
+      author
+      cheerCount
     }
   }
 `;

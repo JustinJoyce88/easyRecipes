@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
-import FavoriteItem from './FavoriteItem';
+import RecipeItem from './RecipeItem';
 import { useGetFavorites } from '../hooks/useGetFavorites';
 import NetworkRefresh from './NetworkRefresh';
 import LoadingData from './LoadingData';
@@ -18,11 +18,11 @@ const FavoritesList = ({ navigation }: FavoritesListProps) => {
     <View style={styles.container}>
       <FlatList
         scrollEnabled={false}
-        data={data?.recipes}
+        data={data?.recipes?.edges}
         renderItem={({ item }) => (
-          <FavoriteItem navigation={navigation} item={item} refresh={() => refetch()} />
+          <RecipeItem navigation={navigation} item={item?.node} refresh={() => refetch()} />
         )}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item?.node?.id}
         maxToRenderPerBatch={3}
       />
     </View>

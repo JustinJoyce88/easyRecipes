@@ -33,8 +33,26 @@ const AddCategory = () => {
     client: client,
     refetchQueries: [{ query: GET_CATEGORIES }],
   });
+  // the !! notation turns it into a boolean
+  const emptyForm: boolean = !name && !url;
+  const canSubmit: boolean = !!name && !!url;
+  let buttonStyle = customStyles.neutralButton;
+  let textStyle = customStyles.neutralButtonText;
 
-  const cantSubmit = !name || !url;
+  switch (true) {
+    case altError:
+      buttonStyle = customStyles.disabledButton;
+      textStyle = customStyles.disabledButtonText;
+      break;
+    case emptyForm:
+      buttonStyle = customStyles.neutralButton;
+      textStyle = customStyles.neutralButtonText;
+      break;
+    case canSubmit:
+      buttonStyle = customStyles.customButton;
+      textStyle = customStyles.customButtonText;
+      break;
+  }
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -51,7 +69,7 @@ const AddCategory = () => {
       return setAltError('Please enter a valid URL');
     }
     try {
-       const { data } = await createCategory({ variables: { input: { name, image: url } } });
+      const { data } = await createCategory({ variables: { input: { name, image: url } } });
       if (data?.addCategory?.name) {
         setSubmitSuccess(`${data.addCategory.name} added as a category!`);
         setName('');
@@ -74,7 +92,7 @@ const AddCategory = () => {
 
   return (
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
-      <View style={styles.container}>
+      <View style={customStyles.container}>
         <TextInput
           value={name}
           maxLength={18}
@@ -96,24 +114,10 @@ const AddCategory = () => {
         />
         <TouchableOpacity
           disabled={loading}
-          style={[
-            styles.button,
-            styles.shadow,
-            cantSubmit ? customStyles.disabledButton : customStyles.customButton,
-          ]}
+          style={[styles.button, styles.shadow, buttonStyle]}
           onPress={handleCreateCategory}
         >
-          {renderIf(
-            !loading,
-            <Text
-              style={[
-                styles.buttonText,
-                cantSubmit ? customStyles.disabledButtonText : customStyles.customButtonText,
-              ]}
-            >
-              Submit
-            </Text>
-          )}
+          {renderIf(!loading, <Text style={[styles.buttonText, textStyle]}>Submit</Text>)}
           {renderIf(loading, <ActivityIndicator />)}
         </TouchableOpacity>
         {renderIf(error, <Text style={styles.error}>Error: {error?.message}</Text>)}
@@ -125,6 +129,16 @@ const AddCategory = () => {
 };
 
 const customStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f9ede5',
+  },
+
+  neutralButton: {
+    shadowColor: 'rgba(0,0,0, 0.5)',
+    marginTop: 10,
+    shadowOpacity: 0.5,
+  },
   customButton: {
     shadowColor: 'rgba(75,181,67, 0.5)',
     marginTop: 10,
@@ -137,6 +151,9 @@ const customStyles = StyleSheet.create({
   },
   customButtonText: {
     color: 'rgba(75,181,67, 0.5)',
+  },
+  neutralButtonText: {
+    color: 'rgba(0,0,0, 0.5)',
   },
   disabledButtonText: {
     color: 'rgba(255, 0, 0, 0.5)',

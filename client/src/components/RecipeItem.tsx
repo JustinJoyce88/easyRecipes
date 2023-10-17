@@ -2,42 +2,50 @@ import React, { memo } from 'react';
 import { Text, TouchableOpacity, Image, StyleSheet, View, Dimensions } from 'react-native';
 import styles from '../styles/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
+import FAIcon from 'react-native-vector-icons/FontAwesome5';
 
-type FavoriteItemProps = {
+type RecipeItemProps = {
   item: {
     id: string;
     name: string;
     image: string;
     cookTime: string;
     description: string;
+    cheerCount: number;
   };
   navigation: any;
   refresh: () => void;
 };
-const FavoriteItem = (props: FavoriteItemProps) => {
+const RecipeItem = (props: RecipeItemProps) => {
   const { item, navigation } = props;
-  const { name, image, cookTime, description } = item;
+  const { name, image, cookTime, description, cheerCount } = item;
 
   const handlePress = () =>
     navigation.navigate('Recipe', { recipeId: item.id, onGoBack: () => props.refresh() });
 
   return (
-    <TouchableOpacity onPress={handlePress} style={[customStyles.favoriteCard, styles.shadow]}>
+    <TouchableOpacity onPress={handlePress} style={[customStyles.card, styles.shadow]}>
       <View style={{ flexDirection: 'row' }}>
-        <View style={customStyles.favoriteCardImageContainer}>
+        <View style={customStyles.cardImageContainer}>
           <Image
             source={{ uri: image }}
-            style={customStyles.favoriteCardImage}
-            defaultSource={require('../assets/images/missingImage.png')}
+            style={customStyles.cardImage}
+            defaultSource={require('../../assets/missingImage.png')}
           />
         </View>
-        <View style={customStyles.favoriteCardContent}>
+        <View style={customStyles.cardContent}>
           <Text style={customStyles.text}>{name}</Text>
           <View style={{ padding: 5 }}>
-            <Text style={customStyles.cookTimeText}>
-              <Icon name="time-outline" size={18} color="black" />
-              {cookTime}
-            </Text>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style={customStyles.cookTimeText}>
+                <Icon name="time-outline" size={18} color="black" />
+                {cookTime}
+              </Text>
+              <Text style={customStyles.cookTimeText}>
+                <FAIcon name="glass-cheers" size={16} color="#4285F4" />
+                {cheerCount}
+              </Text>
+            </View>
             <Text style={customStyles.descriptionText}>{description}</Text>
           </View>
         </View>
@@ -61,25 +69,25 @@ const customStyles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
   },
-  favoriteCard: {
+  card: {
     maxHeight: 200,
     width: Dimensions.get('window').width / 1.1,
     margin: 5,
     borderRadius: 5,
     backgroundColor: 'white',
   },
-  favoriteCardImage: {
+  cardImage: {
     height: 100,
     width: 100,
     borderRadius: 5,
     resizeMode: 'cover',
     opacity: 0.9,
   },
-  favoriteCardContent: {
+  cardContent: {
     flex: 1,
     justifyContent: 'space-evenly',
   },
-  favoriteCardImageContainer: {
+  cardImageContainer: {
     height: 100,
     backgroundColor: 'brown',
     borderTopLeftRadius: 5,
@@ -87,4 +95,4 @@ const customStyles = StyleSheet.create({
   },
 });
 
-export default memo(FavoriteItem);
+export default memo(RecipeItem);

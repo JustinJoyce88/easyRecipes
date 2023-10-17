@@ -4,11 +4,17 @@ import client from '../api/client';
 export const GET_FAVORITES = gql`
   query GetFavorites($filter: RecipesFilterInput) {
     recipes(filter: $filter) {
-      id
-      name
-      cookTime
-      description
-      image
+      edges {
+        node {
+          id
+          name
+          description
+          image
+          cookTime
+          cheerCount
+          author
+        }
+      }
     }
   }
 `;

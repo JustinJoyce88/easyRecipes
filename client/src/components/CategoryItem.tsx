@@ -5,24 +5,23 @@ import styles from '../styles/styles';
 type Category = {
   name: string;
   image: string;
+  id: string;
 };
-const CategoryItem = ({ item }: { item: Category }) => {
-  const { name, image } = item;
+const CategoryItem = (props : { item: Category; navigation: any }) => {
+  const { name, image, id } = props.item;
+  const { navigation } = props;
 
   const handlePress = () => {
-    console.log(item);
+    navigation.navigate('Recipes', { categoryId: id });
   };
 
   return (
     <View>
-      <TouchableOpacity
-        style={[customStyles.categoryCard, styles.shadow]}
-        onPress={handlePress}
-      >
+      <TouchableOpacity style={[customStyles.categoryCard, styles.shadow]} onPress={handlePress}>
         <Image
           source={{ uri: image }}
           style={customStyles.categoryImage}
-          defaultSource={require('../assets/images/missingImage.png')}
+          defaultSource={require('../../assets/missingImage.png')}
         />
       </TouchableOpacity>
       <Text style={customStyles.text}>{name}</Text>

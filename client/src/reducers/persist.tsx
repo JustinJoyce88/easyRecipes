@@ -1,26 +1,36 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface PersistState {
-  authToken: string;
+  user: {
+    userId: string;
+    username: string;
+    admin: boolean;
+    token: string;
+  };
 }
 
 const initialState: PersistState = {
-  authToken: '',
+  user: {
+    userId: '',
+    username: '',
+    admin: false,
+    token: '',
+  },
 };
 
 export const persistSlice = createSlice({
   name: 'persist',
   initialState,
   reducers: {
-    setAuthToken: (state, action: PayloadAction<string>) => {
-      state.authToken = action.payload;
+    setUser: (state, action: PayloadAction<any>) => {
+      state.user = action.payload;
     },
     logOut: (state) => {
-      state.authToken = '';
+      state.user = initialState.user;
     },
   },
 });
 
-export const { setAuthToken, logOut } = persistSlice.actions;
+export const { setUser, logOut } = persistSlice.actions;
 
 export default persistSlice.reducer;

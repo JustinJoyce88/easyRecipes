@@ -5,7 +5,8 @@ import { useGetCategories } from '../hooks/useGetCategories';
 import NetworkRefresh from './NetworkRefresh';
 import LoadingData from './LoadingData';
 
-const CategoryList = () => {
+const CategoryList = (props: { navigation: any }) => {
+  const { navigation } = props;
   const { data, loading, error, refetch } = useGetCategories();
 
   if (loading) return <LoadingData />;
@@ -14,7 +15,7 @@ const CategoryList = () => {
     <View style={styles.container}>
       <FlatList
         data={data?.categories}
-        renderItem={({ item }) => <CategoryItem item={item} />}
+        renderItem={({ item }) => <CategoryItem item={item} navigation={navigation} />}
         keyExtractor={(item) => item.name}
         horizontal
         showsHorizontalScrollIndicator={false}

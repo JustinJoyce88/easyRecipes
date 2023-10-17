@@ -1,21 +1,17 @@
 import { ApolloClient, InMemoryCache, createHttpLink, ApolloLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { store } from '../store/store';
-import { RN_ENV_API_URL_PROD, RN_ENV_API_URL_DEV } from '@env';
-
-const PROD = false;
-const API_URL = PROD ? RN_ENV_API_URL_PROD : RN_ENV_API_URL_DEV;
-console.log("🚀 ~ file: client.js:8 ~ API_URL:", API_URL)
+import { API_URL } from '../settings/variables';
 
 const httpLink = createHttpLink({
-  uri: API_URL,
+  uri: "http://192.168.0.6:3000/graphql",
 });
 
 const getHeaders = () => {
-  const authToken = store.getState().persist.authToken;
+  const token = store.getState().persist.user.token;
 
   return {
-    authorization: authToken ? `Bearer ${authToken}` : null,
+    authorization: token ? `Bearer ${token}` : null,
   };
 };
 

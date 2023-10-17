@@ -10,7 +10,7 @@ type NetworkRefreshProps = {
 const NetworkRefresh = (props: NetworkRefreshProps) => {
   const { message } = props;
   return (
-    <>
+    <View style={styles.container}>
       <View>
         <TouchableOpacity style={styles.retryBtn} onPress={() => props.refresh()}>
           <Icon name="refresh-outline" size={24} color="black" />
@@ -21,13 +21,17 @@ const NetworkRefresh = (props: NetworkRefreshProps) => {
         <Icon name="alert-circle-outline" size={24} color="red" />
         <Text style={styles.errorText}>Error: {message}</Text>
       </View>
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     marginTop: 5,
+    backgroundColor: '#f9ede5',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   text: {
     fontSize: 24,
@@ -36,7 +40,6 @@ const styles = StyleSheet.create({
   },
   categoriesError: {
     flexDirection: 'row',
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },

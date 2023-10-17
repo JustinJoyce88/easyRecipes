@@ -9,6 +9,10 @@ import { SheetManager } from 'react-native-actions-sheet';
 import NetworkRefresh from '../components/NetworkRefresh';
 import LoadingData from '../components/LoadingData';
 import { gql, useMutation } from '@apollo/client';
+import FAIcon from 'react-native-vector-icons/FontAwesome5';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useSelector } from 'react-redux';
+import { RootState } from '../reducers';
 
 const DELETE_RECIPE = gql`
   mutation DeleteRecipe($deleteRecipeId: ID!) {
@@ -16,16 +20,27 @@ const DELETE_RECIPE = gql`
   }
 `;
 
+const UPDATE_CHEER = gql`
+  mutation UpdateCheer($updateRecipeId: ID!, $input: UpdateRecipeInput!) {
+    updateRecipe(id: $updateRecipeId, input: $input) {
+      cheerCount
+    }
+  }
+`;
+
 const Recipe = (props: any) => {
   const { route } = props;
   const recipeId = route.params.recipeId;
   const [deleteRecipe] = useMutation(DELETE_RECIPE);
+  const [updateCheer] = useMutation(UPDATE_CHEER);
+  const user = useSelector((state: RootState) => state.persist.user);
   const { data, loading, error, refetch } = useGetRecipe({
     variables: {
       recipeId,
     },
     client: client,
   });
+  const isOwner = user.username === data?.recipe.author || user.admin;
 
   if (loading) return <LoadingData />;
   if (error) return <NetworkRefresh message={error.message} refresh={() => refetch()} />;
@@ -81,6 +96,24 @@ const Recipe = (props: any) => {
     }
   };
 
+  const handleUpdateCheer = async (currentCount: number) => {
+    try {
+      const { data } = await updateCheer({
+        variables: {
+          updateRecipeId: recipeId,
+          input: {
+            cheerCount: currentCount + 1,
+          },
+        },
+      });
+      if (data?.updateRecipe) {
+        refetch();
+      }
+    } catch (error: any) {
+      Alert.alert('Error: ', error);
+    }
+  };
+
   const alertDelete = () => {
     Alert.alert('Delete', 'Are you sure you want to delete this recipe?', [
       {
@@ -103,31 +136,45 @@ const Recipe = (props: any) => {
       >
         <View style={customStyles.textContainer}>
           <View style={{ padding: 10 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-              <Icon
-                style={{ marginRight: 10 }}
-                onPress={handleEdit}
-                name="create-outline"
-                size={38}
-                color={'#4285F4'}
-              />
-              <Icon onPress={alertDelete} name="trash-outline" size={38} color={'#de5246'} />
-            </View>
+            {renderIf(
+              isOwner,
+              <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                <Icon
+                  style={{ marginRight: 10 }}
+                  onPress={handleEdit}
+                  name="create-outline"
+                  size={38}
+                  color={'#4285F4'}
+                />
+                <Icon onPress={alertDelete} name="trash-outline" size={38} color={'#de5246'} />
+              </View>
+            )}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text style={customStyles.headerText}>{data?.recipe?.name}</Text>
             </View>
             <Text style={customStyles.subHeaderText}>{data?.recipe?.description}</Text>
-
-            <Text style={customStyles.cookTimeText}>
-              <Icon name="time-outline" size={18} color="black" />
-              {data?.recipe?.cookTime}
-            </Text>
+            <View style={customStyles.cookTimeLine}>
+              <Text style={customStyles.cookTimeText}>
+                <Icon name="time-outline" size={20} color="black" />
+                {data?.recipe?.cookTime}
+              </Text>
+              <TouchableOpacity
+                disabled={isOwner}
+                onPress={() => handleUpdateCheer(data?.recipe?.cheerCount)}
+              >
+                <Text style={customStyles.cheerCountText}>
+                  <FAIcon name="glass-cheers" size={20} color="#4285F4" />
+                  {data?.recipe?.cheerCount}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <Text>Author: {data?.recipe?.author}</Text>
             {renderIf(
               data?.recipe?.curatorFavorited,
               <View style={{ flexDirection: 'row', marginTop: 20 }}>
                 <Image
                   style={{ width: 40, height: 40 }}
-                  source={require('../assets/images/icon.png')}
+                  source={require('../../assets/icon.png')}
                 />
                 <Text style={customStyles.favoritedText}>YumYum Seal of Approval!</Text>
               </View>
@@ -157,7 +204,11 @@ const customStyles = StyleSheet.create({
   },
   cookTimeText: {
     paddingTop: 10,
-    fontSize: 16,
+    fontSize: 20,
+  },
+  cheerCountText: {
+    paddingTop: 10,
+    fontSize: 24,
   },
   favoritedText: {
     paddingTop: 10,
@@ -183,6 +234,11 @@ const customStyles = StyleSheet.create({
   contentContainer: {
     zIndex: 10,
     paddingTop: 200,
+  },
+  cookTimeLine: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });
 

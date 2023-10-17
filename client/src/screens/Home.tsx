@@ -5,9 +5,14 @@ import Hero from '../components/Hero';
 import CategoryList from '../components/CategoryList';
 import FavoritesList from '../components/FavoritesList';
 import SettingsBtn from '../components/SettingsBtn';
+import ToolBar from '../components/ToolBar';
+import { useSelector } from 'react-redux';
+import { RootState } from '../reducers';
+import renderIf from '../utils/renderIf';
 
 const Home = (props: any) => {
   const { navigation } = props;
+  const user = useSelector((state: RootState) => state.persist.user);
 
   return (
     <View style={customStyles.container}>
@@ -17,13 +22,14 @@ const Home = (props: any) => {
         contentContainerStyle={customStyles.contentContainer}
       >
         <View style={{ backgroundColor: '#f9ede5' }}>
+          <ToolBar navigation={navigation} />
           <Header headerTitle="Explore Categories" />
-          <CategoryList />
+          <CategoryList navigation={navigation} />
           <Header headerTitle="Our Favorites" />
           <FavoritesList navigation={navigation} />
         </View>
       </ScrollView>
-      <SettingsBtn navigation={navigation} />
+      {renderIf(user && user.admin, <SettingsBtn navigation={navigation} />)}
     </View>
   );
 };

@@ -1,5 +1,8 @@
 const Category = require('../models/Category');
 const Recipe = require('../models/Recipe');
+const User = require('../models/User');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 exports.Mutation = {
   addCategory: (root, { input }) => {
@@ -20,6 +23,8 @@ exports.Mutation = {
       curatorFavorited,
       instruction,
       categoryId,
+      author,
+      cheerCount,
     } = input;
     const newRecipe = new Recipe({
       name,
@@ -30,8 +35,26 @@ exports.Mutation = {
       curatorFavorited,
       instruction,
       categoryId,
+      author,
+      cheerCount,
     });
     return newRecipe.save();
+  },
+  createUser: async (_, { input }) => {
+    const { username, password } = input;
+    const existingUser = await User.findOne({ username });
+    if (!username && !password) {
+      throw new Error('Username and password are required');
+    }
+    if (existingUser) {
+      throw new Error('Username already exists');
+    }
+    const newUser = new User({
+      username: username,
+      password: bcrypt.hashSync(password, 10),
+      admin: false,
+    });
+    return newUser.save();
   },
   deleteCategory: async (root, { id }) => {
     try {
@@ -81,5 +104,23 @@ exports.Mutation = {
       // Handle any errors
       throw new Error('Failed to update entry');
     }
+  },
+  login: async (_, { username, password }) => {
+    const user = await User.findOne({ username });
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Compare the provided password with the hashed password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      throw new Error('Invalid password');
+    }
+
+    // Generate a token
+    const token = jwt.sign({ userId: user.id }, process.env.SECRET_KEY);
+
+    return { token, userId: user._id.toString(), admin: user.admin, username: user.username };
   },
 };

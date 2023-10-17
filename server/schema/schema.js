@@ -2,8 +2,7 @@ const { gql } = require('apollo-server');
 
 exports.typeDefs = gql`
   type Query {
-    hello: String!
-    recipes(filter: RecipesFilterInput): [Recipe!]!
+    recipes(filter: RecipesFilterInput, offset: Int, limit: Int): RecipeConnection!
     recipe(id: ID!): Recipe
     categories: [Category!]!
     category(id: ID!): Category
@@ -16,13 +15,36 @@ exports.typeDefs = gql`
     deleteRecipe(id: ID!): Boolean!
     updateRecipe(id: ID!, input: UpdateRecipeInput!): Recipe
     updateCategory(id: ID!, input: UpdateCategoryInput!): Category
+    login(username: String!, password: String!): User!
+    createUser(input: CreateUserInput!): NewUser!
+  }
+
+  input CreateUserInput {
+    username: String!
+    password: String!
+  }
+
+  type NewUser {
+    id: ID!
+    username: String!
+    password: String!
+    admin: Boolean
+  }
+
+  type User {
+    token: String!
+    userId: ID!
+    admin: Boolean!
+    username: String!
   }
 
   type Recipe {
     id: ID!
     name: String!
     description: String!
+    author: String!
     cookTime: String!
+    cheerCount: Int!
     ingredients: [String!]!
     image: String!
     instruction: [String!]!
@@ -37,8 +59,25 @@ exports.typeDefs = gql`
     recipes: [Recipe!]!
   }
 
+  type RecipeConnection {
+    totalCount: Int!
+    pageInfo: PageInfo!
+    edges: [RecipeEdge!]!
+  }
+
+  type RecipeEdge {
+    cursor: String!
+    node: Recipe!
+  }
+
+  type PageInfo {
+    hasNextPage: Boolean!
+    endCursor: String
+  }
+
   input RecipesFilterInput {
     curatorFavorited: Boolean
+    categoryId: ID
   }
 
   input AddCategoryInput {
@@ -60,6 +99,8 @@ exports.typeDefs = gql`
     instruction: [String!]!
     curatorFavorited: Boolean!
     categoryId: ID!
+    cheerCount: Int!
+    author: String!
   }
 
   input UpdateRecipeInput {
@@ -71,7 +112,7 @@ exports.typeDefs = gql`
     instruction: [String!]
     curatorFavorited: Boolean
     categoryId: ID
+    cheerCount: Int
+    author: String
   }
 `;
-
-

@@ -1,4 +1,4 @@
 #!/bin/bash
 echo 'Seeding DB...'
-npx node ./src/scripts/seedDB.js
+npx node ./scripts/seedDB.js
 echo 'Done.'
