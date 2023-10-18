@@ -30,7 +30,7 @@ const RecipeItem = (props: RecipeItemProps) => {
           <Image
             source={{ uri: image }}
             style={customStyles.cardImage}
-            defaultSource={require('../../assets/missingImage.png')}
+            defaultSource={require('../assets/missingImage.png')}
           />
         </View>
         <View style={customStyles.cardContent}>

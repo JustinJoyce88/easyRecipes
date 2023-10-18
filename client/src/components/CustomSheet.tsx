@@ -63,8 +63,8 @@ const CustomSheet = (props: SheetProps) => {
   };
 
   return (
-    <ActionSheet headerAlwaysVisible id={props.sheetId}>
-      <View style={customStyles.container}>
+    <ActionSheet containerStyle={customStyles.container} headerAlwaysVisible id={props.sheetId}>
+      <View>
         <TextInput
           value={name}
           maxLength={30}
@@ -116,6 +116,7 @@ const CustomSheet = (props: SheetProps) => {
 
 const customStyles = StyleSheet.create({
   container: {
+    backgroundColor: '#f9ede5',
     height: '80%',
   },
   text: {

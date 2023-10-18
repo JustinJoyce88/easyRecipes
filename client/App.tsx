@@ -1,6 +1,5 @@
-import { SafeAreaView, StyleSheet, LogBox } from 'react-native';
+import { SafeAreaView, StyleSheet, Platform } from 'react-native';
 import { persistor, store } from './src/store/store';
-
 import Recipe from './src/screens/Recipe';
 import Home from './src/screens/Home';
 import AddCategory from './src/screens/AddCategory';
@@ -24,7 +23,9 @@ const App = () => {
       <ApolloProvider client={client}>
         <PersistGate loading={null} persistor={persistor}>
           <SheetProvider>
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView
+              style={Platform.OS === 'android' ? styles.androidContainer : styles.iosContainer}
+            >
               <NavigationContainer>
                 <Stack.Navigator initialRouteName="LoginScreen">
                   <Stack.Screen
@@ -85,7 +86,11 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  androidContainer: {
+    paddingTop: 50,
+    flex: 1,
+  },
+  iosContainer: {
     flex: 1,
     backgroundColor: 'black',
   },

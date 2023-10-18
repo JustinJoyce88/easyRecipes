@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
+  Platform,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
@@ -76,7 +77,10 @@ const Login = (props: any) => {
   };
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={{ width: '100%', flex: 1 }}>
+    <KeyboardAvoidingView
+      behavior="padding"
+      style={[Platform.OS === 'ios' ? customStyles.iosContainer : customStyles.androidContainer]}
+    >
       <TouchableWithoutFeedback onPress={dismissKeyboard}>
         <View style={{ flex: 1, justifyContent: 'center' }}>
           <Image source={require('../../assets/icon.png')} style={customStyles.icon} />
@@ -138,6 +142,13 @@ const customStyles = StyleSheet.create({
     alignSelf: 'center',
     width: 100,
     height: 100,
+  },
+  iosContainer: {
+    flex: 1,
+    width: '100%',
+  },
+  androidContainer: {
+    width: '100%',
   },
 });
 
