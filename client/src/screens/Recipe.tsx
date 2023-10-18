@@ -142,14 +142,17 @@ const Recipe = (props: any) => {
             {renderIf(
               isOwner,
               <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                <Icon
-                  style={{ marginRight: 10 }}
-                  onPress={handleEdit}
-                  name="create-outline"
-                  size={38}
-                  color={'#4285F4'}
-                />
-                <Icon onPress={alertDelete} name="trash-outline" size={38} color={'#de5246'} />
+                <TouchableOpacity onPress={handleEdit}>
+                  <Icon
+                    style={{ marginRight: 10 }}
+                    name="create-outline"
+                    size={38}
+                    color={'#4285F4'}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={alertDelete}>
+                  <Icon name="trash-outline" size={38} color={'#de5246'} />
+                </TouchableOpacity>
               </View>
             )}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>

@@ -202,6 +202,7 @@ const CustomSheet = (props: SheetProps) => {
           }}
         />
         <Icon
+          disabled={recipeForm.ingredients.length === 1}
           style={{ paddingRight: 10 }}
           name="trash-outline"
           size={38}
@@ -233,6 +234,7 @@ const CustomSheet = (props: SheetProps) => {
           }}
         />
         <Icon
+          disabled={recipeForm.ingredients.length === 1}
           style={{ paddingRight: 10 }}
           name="trash-outline"
           size={38}

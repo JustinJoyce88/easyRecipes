@@ -34,7 +34,7 @@ const seedTen = (i) => {
         input: {
           name: uuidv4().slice(0, -20),
           description: 'Delicious homemade chicken and dumplings in the crock pot',
-          author: 'John Doe',
+          author: 'user',
           cookTime: '5 hours',
           image: 'https://live.staticflickr.com/5161/5265796751_f75b6c160a_c.jpg',
           ingredients: [
@@ -74,7 +74,7 @@ const seedOne = (i) => {
         input: {
           name: 'Homestyle Chili',
           description: 'A hearty and delicious homemade chili recipe',
-          author: 'John Doe',
+          author: ' user',
           cookTime: '4 hours',
           image: 'https://live.staticflickr.com/8298/7818571354_8e0c5ee56e_b.jpg',
           ingredients: [

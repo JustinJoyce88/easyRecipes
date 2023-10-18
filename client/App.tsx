@@ -1,6 +1,6 @@
 import './sheets';
 
-import { Platform, SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import { persistor, store } from './src/store/store';
 
 import AddCategory from './src/screens/AddCategory';
@@ -26,7 +26,7 @@ const App = () => {
         <PersistGate loading={null} persistor={persistor}>
           <SheetProvider>
             <SafeAreaView
-              style={Platform.OS === 'android' ? styles.androidContainer : styles.iosContainer}
+              style={styles.container}
             >
               <NavigationContainer>
                 <Stack.Navigator initialRouteName="LoginScreen">
@@ -88,11 +88,7 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  androidContainer: {
-    paddingTop: 50,
-    flex: 1,
-  },
-  iosContainer: {
+  container: {
     flex: 1,
     backgroundColor: 'black',
   },
