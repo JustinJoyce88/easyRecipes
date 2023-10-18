@@ -4,7 +4,7 @@ import { store } from '../store/store';
 import { API_URL } from '../settings/variables';
 
 const httpLink = createHttpLink({
-  uri: "http://192.168.0.6:3000/graphql",
+  uri: API_URL,
 });
 
 const getHeaders = () => {

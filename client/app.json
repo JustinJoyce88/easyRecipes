@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "easyRecipes",
-    "slug": "easyRecipes",
+    "name": "yumyumhub",
+    "slug": "yumyumhub",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.justinjoyce.yumyumhub"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c406e959-bf28-44c2-8478-f4a33a947409"
+      }
+    },
+    "owner": "jjoyce"
   }
 }
