@@ -74,6 +74,10 @@ const CreateUser = (props: any) => {
   };
 
   const handleCreateAccount = async (username: string, password: string) => {
+    if(!username || !password) {
+      setError('Please enter a username and password');
+      return;
+    }
     const isValidUsername = validateUsername();
     if (!isValidUsername) {
       setError('Invalid username. Can only contain letters and numbers.');

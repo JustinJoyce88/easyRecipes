@@ -24,7 +24,7 @@ const Hero = ({ img, opacity }: { img?: string; opacity?: number }) => {
       <View style={customStyles.container}>
         <Image
           style={[customStyles.heroImage, { opacity }]}
-          source={img ? { uri: img } : require('../assets/hero.png')}
+          source={img ? { uri: img } : require('../assets/hero.jpeg')}
         />
       </View>
       {renderHeroContent()}

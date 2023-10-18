@@ -48,6 +48,10 @@ const Login = (props: any) => {
   }, []);
 
   const handleLogin = async (username: string, password: string) => {
+    if(!username || !password) {
+      setError('Please enter a username and password');
+      return;
+    }
     try {
       const { data } = await login({
         variables: { username, password },
