@@ -1,9 +1,10 @@
-import React from 'react';
-import { View, FlatList, StyleSheet, Text } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
+
 import CategoryItem from './CategoryItem';
-import { useGetCategories } from '../hooks/useGetCategories';
-import NetworkRefresh from './NetworkRefresh';
 import LoadingData from './LoadingData';
+import NetworkRefresh from './NetworkRefresh';
+import React from 'react';
+import { useGetCategories } from '../hooks/useGetCategories';
 
 const CategoryList = (props: { navigation: any }) => {
   const { navigation } = props;

@@ -1,25 +1,26 @@
 import {
   ActivityIndicator,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
   Dimensions,
-  View,
-  TextInput,
   Image,
-  KeyboardAvoidingView,
   Keyboard,
-  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
   Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { useMutation } from '@apollo/client';
-import { gql } from '@apollo/client';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { RootState } from '../reducers';
-import { setUser } from '../reducers/persist';
+import { gql } from '@apollo/client';
 import renderIf from '../utils/renderIf';
+import { setUser } from '../reducers/persist';
 import styles from '../styles/styles';
+import { useMutation } from '@apollo/client';
 
 const LOGIN_MUTATION = gql`
   mutation LoginMutation($username: String!, $password: String!) {
@@ -48,7 +49,7 @@ const Login = (props: any) => {
   }, []);
 
   const handleLogin = async (username: string, password: string) => {
-    if(!username || !password) {
+    if (!username || !password) {
       setError('Please enter a username and password');
       return;
     }

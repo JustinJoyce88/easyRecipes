@@ -1,4 +1,5 @@
-import { useQuery, gql, ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import { ApolloClient, NormalizedCacheObject, gql, useQuery } from '@apollo/client';
+
 import client from '../api/client';
 
 export const GET_RECIPES = gql`
@@ -29,6 +30,7 @@ export const useGetRecipes = (reqData: {
 }) => {
   const { categoryId } = reqData.variables;
   const { data, loading, error, refetch, fetchMore } = useQuery(GET_RECIPES, {
+    fetchPolicy: 'no-cache',
     variables: {
       offset: 0,
       limit: 10,

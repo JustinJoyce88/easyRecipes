@@ -1,4 +1,5 @@
-import { useQuery, gql, ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import { ApolloClient, NormalizedCacheObject, gql, useQuery } from '@apollo/client';
+
 import client from '../api/client';
 
 export const GET_RECIPE = gql`

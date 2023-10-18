@@ -1,20 +1,21 @@
 import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
   ActivityIndicator,
   Keyboard,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
   TouchableWithoutFeedback,
+  View,
 } from 'react-native';
-import React, { useState, ReactNode } from 'react';
-import styles from '../styles/styles';
-import { TextInput } from 'react-native-gesture-handler';
-import { useMutation, gql } from '@apollo/client';
-import renderIf from '../utils/renderIf';
-import client from '../api/client';
+import React, { ReactNode, useState } from 'react';
+import { gql, useMutation } from '@apollo/client';
+
 import { GET_CATEGORIES } from '../hooks/useGetCategories';
+import { TextInput } from 'react-native-gesture-handler';
 import { checkIfValidUrl } from '../utils/checkIfValidUrl';
+import client from '../api/client';
+import renderIf from '../utils/renderIf';
+import styles from '../styles/styles';
 
 const CREATE_CATEGORY = gql`
   mutation CreateCategory($input: AddCategoryInput!) {

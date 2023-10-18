@@ -1,8 +1,9 @@
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { memo } from 'react';
-import { Text, TouchableOpacity, Image, StyleSheet, View, Dimensions } from 'react-native';
-import styles from '../styles/styles';
-import Icon from 'react-native-vector-icons/Ionicons';
+
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/Ionicons';
+import styles from '../styles/styles';
 
 type RecipeItemProps = {
   item: {
@@ -36,7 +37,7 @@ const RecipeItem = (props: RecipeItemProps) => {
         <View style={customStyles.cardContent}>
           <Text style={customStyles.text}>{name}</Text>
           <View style={{ padding: 5 }}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text style={customStyles.cookTimeText}>
                 <Icon name="time-outline" size={18} color="black" />
                 {cookTime}

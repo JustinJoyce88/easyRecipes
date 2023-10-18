@@ -1,11 +1,12 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-import React, { useState } from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+
+import Icon from 'react-native-vector-icons/Ionicons';
+import LoadingData from '../components/LoadingData';
+import NetworkRefresh from '../components/NetworkRefresh';
+import RecipeItem from '../components/RecipeItem';
 import client from '../api/client';
 import { useGetRecipes } from '../hooks/useGetRecipes';
-import NetworkRefresh from '../components/NetworkRefresh';
-import LoadingData from '../components/LoadingData';
-import RecipeItem from '../components/RecipeItem';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 const Recipes = (props: any) => {
   const { route, navigation } = props;
@@ -20,6 +21,12 @@ const Recipes = (props: any) => {
     },
     client: client,
   });
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => refetch());
+
+    return unsubscribe;
+  }, []);
 
   const handleLoadMore = () => {
     const hasNextPage = data?.recipes?.pageInfo?.hasNextPage;

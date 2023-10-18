@@ -1,7 +1,8 @@
-import { ApolloClient, InMemoryCache, createHttpLink, ApolloLink } from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCache, createHttpLink } from '@apollo/client';
+
+import { API_URL } from '../settings/variables';
 import { setContext } from '@apollo/client/link/context';
 import { store } from '../store/store';
-import { API_URL } from '../settings/variables';
 
 const httpLink = createHttpLink({
   uri: API_URL,

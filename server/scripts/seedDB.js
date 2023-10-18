@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const { v4: uuidv4 } = require('uuid');
 
 const client = new ApolloClient({
-  uri: 'http://192.168.0.6:3000/graphql',
+  uri: 'http://192.168.0.10:3000/graphql',
   cache: new InMemoryCache(),
   fetch,
 });

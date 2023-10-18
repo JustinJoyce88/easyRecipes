@@ -1,9 +1,10 @@
+import { FlatList, StyleSheet, View } from 'react-native';
+
+import LoadingData from './LoadingData';
+import NetworkRefresh from './NetworkRefresh';
 import React from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
 import RecipeItem from './RecipeItem';
 import { useGetFavorites } from '../hooks/useGetFavorites';
-import NetworkRefresh from './NetworkRefresh';
-import LoadingData from './LoadingData';
 
 type FavoritesListProps = {
   navigation: any;

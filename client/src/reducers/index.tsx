@@ -1,6 +1,7 @@
-import { combineReducers } from 'redux';
 import global, { GlobalState } from './global';
 import persist, { PersistState } from './persist';
+
+import { combineReducers } from 'redux';
 
 export interface RootState {
   global: GlobalState;

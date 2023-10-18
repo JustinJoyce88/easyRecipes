@@ -1,5 +1,6 @@
+import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
+
 import React from 'react';
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
 import styles from '../styles/styles';
 
 const Hero = ({ img, opacity }: { img?: string; opacity?: number }) => {

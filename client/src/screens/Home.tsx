@@ -1,14 +1,15 @@
-import { View, ScrollView, StyleSheet } from 'react-native';
-import React from 'react';
-import Header from '../components/Header';
-import Hero from '../components/Hero';
+import { ScrollView, StyleSheet, View } from 'react-native';
+
 import CategoryList from '../components/CategoryList';
 import FavoritesList from '../components/FavoritesList';
+import Header from '../components/Header';
+import Hero from '../components/Hero';
+import React from 'react';
+import { RootState } from '../reducers';
 import SettingsBtn from '../components/SettingsBtn';
 import ToolBar from '../components/ToolBar';
-import { useSelector } from 'react-redux';
-import { RootState } from '../reducers';
 import renderIf from '../utils/renderIf';
+import { useSelector } from 'react-redux';
 
 const Home = (props: any) => {
   const { navigation } = props;

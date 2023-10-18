@@ -1,18 +1,19 @@
-import React from 'react';
-import { Text, View, StyleSheet, ScrollView, Alert, Image } from 'react-native';
-import renderIf from '../utils/renderIf';
-import client from '../api/client';
-import { useGetRecipe } from '../hooks/useGetRecipe';
-import Icon from 'react-native-vector-icons/Ionicons';
-import Hero from '../components/Hero';
-import { SheetManager } from 'react-native-actions-sheet';
-import NetworkRefresh from '../components/NetworkRefresh';
-import LoadingData from '../components/LoadingData';
+import { Alert, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
 import { gql, useMutation } from '@apollo/client';
+
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useSelector } from 'react-redux';
+import Hero from '../components/Hero';
+import Icon from 'react-native-vector-icons/Ionicons';
+import LoadingData from '../components/LoadingData';
+import NetworkRefresh from '../components/NetworkRefresh';
 import { RootState } from '../reducers';
+import { SheetManager } from 'react-native-actions-sheet';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import client from '../api/client';
+import renderIf from '../utils/renderIf';
+import { useGetRecipe } from '../hooks/useGetRecipe';
+import { useSelector } from 'react-redux';
 
 const DELETE_RECIPE = gql`
   mutation DeleteRecipe($deleteRecipeId: ID!) {
@@ -33,6 +34,7 @@ const Recipe = (props: any) => {
   const recipeId = route.params.recipeId;
   const [deleteRecipe] = useMutation(DELETE_RECIPE);
   const [updateCheer] = useMutation(UPDATE_CHEER);
+
   const user = useSelector((state: RootState) => state.persist.user);
   const { data, loading, error, refetch } = useGetRecipe({
     variables: {
@@ -40,6 +42,7 @@ const Recipe = (props: any) => {
     },
     client: client,
   });
+
   const isOwner = user.username === data?.recipe.author || user.admin;
 
   if (loading) return <LoadingData />;
@@ -68,7 +71,7 @@ const Recipe = (props: any) => {
         <Text style={customStyles.instructionsText}>Instructions</Text>
         {instruction.map((item: string, index: number) => (
           <Text key={index} style={customStyles.arrayText}>
-            {item}
+            {index + 1}. {item.replace(/^\d+\./gm, '')}
           </Text>
         ))}
       </View>
@@ -77,7 +80,7 @@ const Recipe = (props: any) => {
 
   const handleEdit = () =>
     SheetManager.show('custom-sheet', {
-      payload: { data },
+      payload: { data, create: false },
     });
 
   const handleDelete = async () => {

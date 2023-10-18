@@ -1,11 +1,12 @@
+import { StyleSheet, Text, View } from 'react-native';
+
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
 
 type HeaderProps = {
   headerTitle: string;
 };
 
-const Header = ({headerTitle}: HeaderProps) => {
+const Header = ({ headerTitle }: HeaderProps) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{headerTitle}</Text>

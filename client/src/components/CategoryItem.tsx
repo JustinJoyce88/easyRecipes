@@ -1,5 +1,6 @@
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { memo } from 'react';
-import { Text, TouchableOpacity, Image, StyleSheet, View } from 'react-native';
+
 import styles from '../styles/styles';
 
 type Category = {
@@ -7,7 +8,7 @@ type Category = {
   image: string;
   id: string;
 };
-const CategoryItem = (props : { item: Category; navigation: any }) => {
+const CategoryItem = (props: { item: Category; navigation: any }) => {
   const { name, image, id } = props.item;
   const { navigation } = props;
 

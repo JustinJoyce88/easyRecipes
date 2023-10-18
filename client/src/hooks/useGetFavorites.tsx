@@ -1,4 +1,5 @@
-import { useQuery, gql } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
+
 import client from '../api/client';
 
 export const GET_FAVORITES = gql`
