@@ -1,9 +1,9 @@
 const { ApolloClient, InMemoryCache, gql } = require('@apollo/client/core');
 const fetch = require('node-fetch');
-const { v4: uuidv4 } = require('uuid');
+const seedData = require('./seedData');
 
 const client = new ApolloClient({
-  uri: 'http://192.168.0.10:3000/graphql',
+  uri: 'https://easy-recipes-lyart.vercel.app/graphql',
   cache: new InMemoryCache(),
   fetch,
 });
@@ -16,47 +16,12 @@ const CREATE_RECIPE = gql`
   }
 `;
 
-const seedTen = (i) => {
-  const categories = [
-    '652959a34a399aba12878201',
-    '65295d044a399aba12878206',
-    '652965646691718274490be6',
-    '652966106691718274490be9',
-    '65296816d8eac7c4032399df',
-    '65299904f9a581c0f5470a95',
-    '65299b36f9a581c0f5470aa4',
-  ];
-  const pickACategory = Math.floor(Math.random() * 7);
+const seedTen = (seed) => {
   client
     .mutate({
       mutation: CREATE_RECIPE,
       variables: {
-        input: {
-          name: uuidv4().slice(0, -20),
-          description: 'Delicious homemade chicken and dumplings in the crock pot',
-          author: 'user',
-          cookTime: '5 hours',
-          image: 'https://live.staticflickr.com/5161/5265796751_f75b6c160a_c.jpg',
-          ingredients: [
-            '1 chicken breast',
-            '1 can of biscuits',
-            '2 cups chicken broth',
-            '2 cans cream of chicken soup',
-            '1 or 2 cloves of garlic',
-            'oregano',
-            'bay leaves',
-            'thyme',
-            'salt and pepper to taste',
-          ],
-          instruction: [
-            '1.Put everything in the crock pot but the biscuits for 4 hours on high.',
-            '2.After 4 hours tear the biscuits into pieces and stir into the crock pot. Stir every 15 minutes.',
-            '3. Leave on high for one more hour before serving.',
-          ],
-          curatorFavorited: i % 2 === 0 ? true : false,
-          cheerCount: 0,
-          categoryId: categories[pickACategory],
-        },
+        input: seed
       },
     })
     .then((result) => {
@@ -66,7 +31,7 @@ const seedTen = (i) => {
       console.error('Mutation error:', error);
     });
 };
-const seedOne = (i) => {
+const seedOne = () => {
   client
     .mutate({
       mutation: CREATE_RECIPE,
@@ -74,7 +39,7 @@ const seedOne = (i) => {
         input: {
           name: 'Homestyle Chili',
           description: 'A hearty and delicious homemade chili recipe',
-          author: ' user',
+          author: 'user',
           cookTime: '4 hours',
           image: 'https://live.staticflickr.com/8298/7818571354_8e0c5ee56e_b.jpg',
           ingredients: [
@@ -117,13 +82,13 @@ const seedOne = (i) => {
 };
 
 function seedDB() {
-  const seedTenRandom = true;
+  const seedItUp = true;
   console.log('Beginning seed function...');
-  if (seedTenRandom)
-    for (let i = 0; i < 10; i++) {
-      seedTen(i);
+  if (seedItUp) {
+    for (seed of seedData) {
+      seedTen(seed);
     }
-  else seedOne();
+  } else seedOne();
   console.log('Finished seed function.');
 }
 

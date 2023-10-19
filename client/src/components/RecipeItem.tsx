@@ -4,6 +4,8 @@ import React, { memo } from 'react';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles from '../styles/styles';
+import { RFValue, RFPercentage } from 'react-native-responsive-fontsize';
+
 
 type RecipeItemProps = {
   item: {
@@ -35,7 +37,7 @@ const RecipeItem = (props: RecipeItemProps) => {
           />
         </View>
         <View style={customStyles.cardContent}>
-          <Text style={customStyles.text}>{name}</Text>
+          <Text style={[customStyles.text, {fontSize: RFValue(16, Dimensions.get('window').height)}]}>{name}</Text>
           <View style={{ padding: 5 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text style={customStyles.cookTimeText}>
@@ -47,7 +49,10 @@ const RecipeItem = (props: RecipeItemProps) => {
                 {cheerCount}
               </Text>
             </View>
-            <Text style={customStyles.descriptionText}>{description}</Text>
+            <Text style={customStyles.descriptionText}>{`${description.substring(
+              0,
+              50
+            )}...`}</Text>
           </View>
         </View>
       </View>
@@ -59,7 +64,6 @@ const customStyles = StyleSheet.create({
   text: {
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 18,
   },
   cookTimeText: {
     fontSize: 18,
