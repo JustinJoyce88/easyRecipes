@@ -1,3 +1,5 @@
+import { SheetManager } from 'react-native-actions-sheet';
+
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
@@ -7,10 +9,13 @@ import NetworkRefresh from '../components/NetworkRefresh';
 import RecipeItem from '../components/RecipeItem';
 import client from '../api/client';
 import { useGetRecipes } from '../hooks/useGetRecipes';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import styles from '../styles/styles';
 
 const Recipes = (props: any) => {
   const { route, navigation } = props;
   const categoryId = route.params.categoryId;
+  const filterByUser = route.params.filterByUser ? route.params.filterByUser : null;
   const [currentCount, setCurrentCount] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { data, loading, error, refetch, fetchMore } = useGetRecipes({
@@ -18,12 +23,15 @@ const Recipes = (props: any) => {
       categoryId,
       offset: currentCount,
       limit: 10,
+      author: filterByUser,
     },
     client: client,
   });
-
+  
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => refetch());
+    const unsubscribe = navigation.addListener('focus', () => {
+      if (!loading) refetch();
+    });
 
     return unsubscribe;
   }, []);
@@ -88,6 +96,27 @@ const Recipes = (props: any) => {
       </View>
     );
   }
+  if (filterByUser) {
+    return (
+      <View style={customStyles.container}>
+        <Text style={customStyles.noDataText}>
+          It looks like you haven't created any recipes.{' '}
+          <Icon name="sad-outline" size={24} color="black" />
+        </Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.goBack();
+            SheetManager.show('custom-sheet', {
+              payload: { create: true },
+            });
+          }}
+        >
+          <Text style={styles.buttonText}>Create one now</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
   return (
     <View style={customStyles.container}>
       <Text style={customStyles.noDataText}>
@@ -108,6 +137,7 @@ const customStyles = StyleSheet.create({
   noDataText: {
     fontSize: 24,
     textAlign: 'center',
+    marginBottom: 10,
   },
   neutralButton: {
     shadowColor: 'rgba(0,0,0, 0.5)',

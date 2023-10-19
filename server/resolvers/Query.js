@@ -9,6 +9,7 @@ exports.Query = {
     if (filter) {
       if (filter.curatorFavorited) recipeFilter.curatorFavorited = filter.curatorFavorited;
       if (filter.categoryId) recipeFilter.categoryId = filter.categoryId;
+      if (filter.author) recipeFilter.author = filter.author;
     }
     let recipes = await Recipe.find(recipeFilter).sort({ name: 'asc' }).skip(offset).limit(limit);
     if (filter.curatorFavorited) recipes = shuffleArray(recipes).slice(0, 5);

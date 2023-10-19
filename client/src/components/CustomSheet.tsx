@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
 
 import { GET_RECIPE } from '../hooks/useGetRecipe';

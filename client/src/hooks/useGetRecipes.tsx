@@ -25,10 +25,10 @@ export const GET_RECIPES = gql`
 `;
 
 export const useGetRecipes = (reqData: {
-  variables: { categoryId: string; offset: number; limit: number };
+  variables: { categoryId: string; author: string; offset: number; limit: number };
   client: ApolloClient<NormalizedCacheObject>;
 }) => {
-  const { categoryId } = reqData.variables;
+  const { categoryId, author } = reqData.variables;
   const { data, loading, error, refetch, fetchMore } = useQuery(GET_RECIPES, {
     fetchPolicy: 'no-cache',
     variables: {
@@ -36,6 +36,7 @@ export const useGetRecipes = (reqData: {
       limit: 10,
       filter: {
         categoryId,
+        author,
       },
     },
     client: client,

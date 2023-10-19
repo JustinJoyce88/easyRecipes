@@ -78,6 +78,7 @@ exports.typeDefs = gql`
   input RecipesFilterInput {
     curatorFavorited: Boolean
     categoryId: ID
+    author: String
   }
 
   input AddCategoryInput {

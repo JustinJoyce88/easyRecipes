@@ -19,7 +19,6 @@ const ToolBar = (props: ToolBarProps) => {
   const { navigation } = props;
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.persist.user);
-  
 
   useEffect(() => {
     if (!user.token) {
@@ -61,19 +60,16 @@ const ToolBar = (props: ToolBarProps) => {
         >
           <Text>Add a Recipe</Text>
         </TouchableOpacity>
-        {renderIf(
-          false,
-          <TouchableOpacity
-            style={[
-              styles.button,
-              styles.shadow,
-              { width: Dimensions.get('window').width / 3, marginRight: 10 },
-            ]}
-            onPress={() => navigation.navigate('Profile')}
-          >
-            <Text>My Recipes</Text>
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity
+          style={[
+            styles.button,
+            styles.shadow,
+            { width: Dimensions.get('window').width / 3, marginRight: 10 },
+          ]}
+          onPress={() => navigation.navigate('Recipes', { filterByUser: user.username })}
+        >
+          <Text>My Recipes</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
