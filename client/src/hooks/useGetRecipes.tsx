@@ -30,7 +30,7 @@ export const useGetRecipes = (reqData: {
 }) => {
   const { categoryId, author } = reqData.variables;
   const { data, loading, error, refetch, fetchMore } = useQuery(GET_RECIPES, {
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'network-only',
     variables: {
       offset: 0,
       limit: 10,

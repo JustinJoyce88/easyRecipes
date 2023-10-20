@@ -1,5 +1,5 @@
 import { Alert, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { gql, useMutation } from '@apollo/client';
 
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
@@ -32,6 +32,7 @@ const UPDATE_CHEER = gql`
 const Recipe = (props: any) => {
   const { route } = props;
   const recipeId = route.params.recipeId;
+
   const [deleteRecipe] = useMutation(DELETE_RECIPE);
   const [updateCheer] = useMutation(UPDATE_CHEER);
 
@@ -91,7 +92,7 @@ const Recipe = (props: any) => {
         },
       });
       if (data?.deleteRecipe) {
-        props.route.params.onGoBack();
+        route.params.onGoBack();
         props.navigation.goBack();
       }
     } catch (error: any) {

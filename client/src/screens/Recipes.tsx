@@ -27,10 +27,10 @@ const Recipes = (props: any) => {
     },
     client: client,
   });
-  
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      if (!loading) refetch();
+      refetch();
     });
 
     return unsubscribe;
@@ -48,13 +48,12 @@ const Recipes = (props: any) => {
         updateQuery: (prev, { fetchMoreResult }) => {
           if (!fetchMoreResult) return prev;
 
-          const { edges, pageInfo, totalCount } = fetchMoreResult.recipes;
-
           return {
             recipes: {
-              edges: [...prev.recipes.edges, ...edges],
-              pageInfo,
-              totalCount,
+              totalCount: fetchMoreResult.recipes.totalCount,
+              edges: [...prev.recipes.edges, ...fetchMoreResult.recipes.edges],
+              pageInfo: fetchMoreResult.recipes.pageInfo,
+              __typename: prev.recipes.__typename,
             },
           };
         },
@@ -91,7 +90,7 @@ const Recipes = (props: any) => {
           keyExtractor={(item) => item.node.id}
           maxToRenderPerBatch={8}
           onEndReached={() => handleLoadMore()}
-          // onEndReachedThreshold={0.1}
+          onEndReachedThreshold={0.5}
         />
       </View>
     );

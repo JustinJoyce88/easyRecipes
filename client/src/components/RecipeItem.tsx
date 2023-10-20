@@ -1,11 +1,10 @@
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles from '../styles/styles';
-import { RFValue, RFPercentage } from 'react-native-responsive-fontsize';
-
+import { RFValue } from 'react-native-responsive-fontsize';
 
 type RecipeItemProps = {
   item: {
@@ -37,7 +36,11 @@ const RecipeItem = (props: RecipeItemProps) => {
           />
         </View>
         <View style={customStyles.cardContent}>
-          <Text style={[customStyles.text, {fontSize: RFValue(16, Dimensions.get('window').height)}]}>{name}</Text>
+          <Text
+            style={[customStyles.text, { fontSize: RFValue(16, Dimensions.get('window').height) }]}
+          >
+            {name}
+          </Text>
           <View style={{ padding: 5 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text style={customStyles.cookTimeText}>
@@ -49,10 +52,7 @@ const RecipeItem = (props: RecipeItemProps) => {
                 {cheerCount}
               </Text>
             </View>
-            <Text style={customStyles.descriptionText}>{`${description.substring(
-              0,
-              50
-            )}...`}</Text>
+            <Text style={customStyles.descriptionText}>{`${description.substring(0, 50)}...`}</Text>
           </View>
         </View>
       </View>
@@ -84,9 +84,10 @@ const customStyles = StyleSheet.create({
   cardImage: {
     height: 100,
     width: 100,
-    borderRadius: 5,
     resizeMode: 'cover',
     opacity: 0.9,
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
   },
   cardContent: {
     flex: 1,

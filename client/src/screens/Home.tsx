@@ -1,19 +1,16 @@
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View, Text } from 'react-native';
 
 import CategoryList from '../components/CategoryList';
 import FavoritesList from '../components/FavoritesList';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import React from 'react';
-import { RootState } from '../reducers';
-import SettingsBtn from '../components/SettingsBtn';
 import ToolBar from '../components/ToolBar';
-import renderIf from '../utils/renderIf';
-import { useSelector } from 'react-redux';
+import { VERSION } from '../settings/variables';
+import AboutBtn from '../components/AboutBtn';
 
 const Home = (props: any) => {
   const { navigation } = props;
-  const user = useSelector((state: RootState) => state.persist.user);
 
   return (
     <View style={customStyles.container}>
@@ -29,8 +26,9 @@ const Home = (props: any) => {
           <Header headerTitle="Our Favorites" />
           <FavoritesList navigation={navigation} />
         </View>
+        <Text>Version: {VERSION}</Text>
       </ScrollView>
-      {renderIf(user && user.admin, <SettingsBtn navigation={navigation} />)}
+      <AboutBtn />
     </View>
   );
 };

@@ -31,10 +31,19 @@ const ToolBar = (props: ToolBarProps) => {
       payload: { create: true },
     });
 
+  const handleProfileBtn = () => {
+    if (user && user.admin) {
+      navigation.navigate('Add Category');
+    }
+  };
+
   return (
     <View>
       <View style={customStyles.container}>
-        <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+        <TouchableOpacity
+          onPress={handleProfileBtn}
+          style={{ alignItems: 'center', flexDirection: 'row' }}
+        >
           <FAIcon
             style={{ marginLeft: 10, marginRight: 5 }}
             name="user-circle"
@@ -42,7 +51,7 @@ const ToolBar = (props: ToolBarProps) => {
             color="black"
           />
           <Text>{`${user.username.charAt(0).toUpperCase()}${user.username.slice(1)}`}</Text>
-        </View>
+        </TouchableOpacity>
         <View>
           <TouchableOpacity onPress={() => dispatch(logOut())}>
             <Icon name="log-out-outline" size={32} color="#de5246" />

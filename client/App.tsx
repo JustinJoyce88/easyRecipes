@@ -1,6 +1,6 @@
 import './sheets';
 
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet, LogBox } from 'react-native';
 import { persistor, store } from './src/store/store';
 
 import AddCategory from './src/screens/AddCategory';
@@ -17,6 +17,10 @@ import Recipes from './src/screens/Recipes';
 import { SheetProvider } from 'react-native-actions-sheet';
 import client from './src/api/client';
 import { createStackNavigator } from '@react-navigation/stack';
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
 
 const Stack = createStackNavigator();
 const App = () => {
