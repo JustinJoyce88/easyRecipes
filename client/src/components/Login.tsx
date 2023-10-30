@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import * as SecureStore from 'expo-secure-store';
 
 import { RootState } from '../reducers';
 import { gql } from '@apollo/client';
@@ -21,6 +22,7 @@ import renderIf from '../utils/renderIf';
 import { setUser } from '../reducers/persist';
 import styles from '../styles/styles';
 import { useMutation } from '@apollo/client';
+import retrieveTokenFromKeychain from '../utils/retrieveTokenFromKeychain';
 
 const LOGIN_MUTATION = gql`
   mutation LoginMutation($username: String!, $password: String!) {
@@ -43,9 +45,11 @@ const Login = (props: any) => {
   const [login, { data, loading }] = useMutation(LOGIN_MUTATION);
 
   useEffect(() => {
-    if (user.token) {
-      navigation.navigate('Home');
-    }
+    const getToken = async () => {
+      const hasKey = await retrieveTokenFromKeychain(user);
+      if (hasKey) navigation.navigate('Home');
+    };
+    if (user.username) getToken();
   }, []);
 
   const handleLogin = async (username: string, password: string) => {
@@ -58,9 +62,9 @@ const Login = (props: any) => {
         variables: { username, password },
       });
       if (data?.login) {
+        await SecureStore.setItemAsync(username, data?.login?.token);
         dispatch(
           setUser({
-            token: data?.login?.token,
             userId: data?.login?.userId,
             username: data?.login?.username,
             admin: data?.login?.admin,

@@ -5,7 +5,6 @@ export interface PersistState {
     userId: string;
     username: string;
     admin: boolean;
-    token: string;
   };
 }
 
@@ -14,7 +13,6 @@ const initialState: PersistState = {
     userId: '',
     username: '',
     admin: false,
-    token: '',
   },
 };
 

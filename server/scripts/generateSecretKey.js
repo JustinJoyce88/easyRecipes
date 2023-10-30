@@ -6,6 +6,5 @@ const generateSecretKey = () => {
 };
 
 const secretKey = generateSecretKey();
-console.log(secretKey);
 
 generateSecretKey();

@@ -169,7 +169,6 @@ const CustomSheet = (props: SheetProps) => {
           },
         },
       });
-      console.log('🚀 ~ file: CustomSheet.tsx:187 ~ handleCreateRecipe ~ data:', data);
       if (data?.addRecipe?.id) SheetManager.hide('custom-sheet');
     } catch (error) {
       setAltError(error);

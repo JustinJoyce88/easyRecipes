@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import FAIcon from 'react-native-vector-icons/FontAwesome';
@@ -8,8 +8,8 @@ import { RootState } from '../reducers';
 import { SheetManager } from 'react-native-actions-sheet';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { logOut } from '../reducers/persist';
-import renderIf from '../utils/renderIf';
 import styles from '../styles/styles';
+import * as SecureStore from 'expo-secure-store';
 
 type ToolBarProps = {
   navigation: any;
@@ -20,11 +20,11 @@ const ToolBar = (props: ToolBarProps) => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.persist.user);
 
-  useEffect(() => {
-    if (!user.token) {
-      navigation.navigate('LoginScreen');
-    }
-  }, [user.token]);
+  const handleLogOut = async () => {
+    await SecureStore.deleteItemAsync(user.username);
+    dispatch(logOut());
+    navigation.navigate('LoginScreen');
+  }
 
   const handleAddRecipe = () =>
     SheetManager.show('custom-sheet', {
@@ -53,7 +53,9 @@ const ToolBar = (props: ToolBarProps) => {
           <Text>{`${user.username.charAt(0).toUpperCase()}${user.username.slice(1)}`}</Text>
         </TouchableOpacity>
         <View>
-          <TouchableOpacity onPress={() => dispatch(logOut())}>
+          <TouchableOpacity
+            onPress={async () => handleLogOut()}
+          >
             <Icon name="log-out-outline" size={32} color="#de5246" />
           </TouchableOpacity>
         </View>

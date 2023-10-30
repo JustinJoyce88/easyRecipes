@@ -2,15 +2,19 @@ import { ApolloClient, ApolloLink, InMemoryCache, createHttpLink } from '@apollo
 
 import { API_URL } from '../settings/variables';
 import { setContext } from '@apollo/client/link/context';
+import * as SecureStore from 'expo-secure-store';
 import { store } from '../store/store';
 
 const httpLink = createHttpLink({
   uri: API_URL,
 });
 
-const getHeaders = () => {
-  const token = store.getState().persist.user.token;
-
+const getHeaders = async () => {
+  const user = store.getState().persist.user;
+  let token = null;
+  if (user?.username) {
+    token = await SecureStore.getItemAsync(user.username);
+  }
   return {
     authorization: token ? `Bearer ${token}` : null,
   };

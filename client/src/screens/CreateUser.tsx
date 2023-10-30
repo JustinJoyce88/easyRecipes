@@ -19,6 +19,8 @@ import renderIf from '../utils/renderIf';
 import { setUser } from '../reducers/persist';
 import styles from '../styles/styles';
 import { useMutation } from '@apollo/client';
+import retrieveTokenFromKeychain from '../utils/retrieveTokenFromKeychain';
+import * as SecureStore from 'expo-secure-store';
 
 const CREATE_USER_MUTATION = gql`
   mutation CreateUser($input: CreateUserInput!) {
@@ -51,9 +53,12 @@ const CreateUser = (props: any) => {
   const [login] = useMutation(LOGIN_MUTATION);
 
   useEffect(() => {
-    if (user.token) {
-      navigation.navigate('Home');
-    }
+    const getToken = async () => {
+      const hasKey = await retrieveTokenFromKeychain(user);
+      if (hasKey) navigation.navigate('Home');
+    };
+
+    if (user.username) getToken();
   }, []);
 
   const validateUsername = () => {
@@ -100,9 +105,9 @@ const CreateUser = (props: any) => {
         const { data } = await login({
           variables: { username, password },
         });
+        await SecureStore.setItemAsync(username, data?.login?.token);
         dispatch(
           setUser({
-            token: data?.login?.token,
             userId: data?.login?.userId,
             admin: data?.login?.admin,
             username: data?.login?.username,

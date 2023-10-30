@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, Animated, Easing } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import React from 'react';
