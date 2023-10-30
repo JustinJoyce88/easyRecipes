@@ -11,7 +11,6 @@ import { RootState } from '../reducers';
 import { SheetManager } from 'react-native-actions-sheet';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import client from '../api/client';
-import renderIf from '../utils/renderIf';
 import { useGetRecipe } from '../hooks/useGetRecipe';
 import { useSelector } from 'react-redux';
 
@@ -140,8 +139,7 @@ const Recipe = (props: any) => {
       >
         <View style={customStyles.textContainer}>
           <View style={{ padding: 10 }}>
-            {renderIf(
-              isOwner,
+            {isOwner && (
               <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                 <TouchableOpacity onPress={handleEdit}>
                   <Icon
@@ -176,8 +174,7 @@ const Recipe = (props: any) => {
               </TouchableOpacity>
             </View>
             <Text>Author: {data?.recipe?.author}</Text>
-            {renderIf(
-              data?.recipe?.curatorFavorited,
+            {data?.recipe?.curatorFavorited && (
               <View style={{ flexDirection: 'row', marginTop: 20 }}>
                 <Image
                   style={{ width: 40, height: 40 }}

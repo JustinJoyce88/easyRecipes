@@ -14,7 +14,6 @@ import { GET_CATEGORIES } from '../hooks/useGetCategories';
 import { TextInput } from 'react-native-gesture-handler';
 import { checkIfValidUrl } from '../utils/checkIfValidUrl';
 import client from '../api/client';
-import renderIf from '../utils/renderIf';
 import styles from '../styles/styles';
 
 const CREATE_CATEGORY = gql`
@@ -29,7 +28,7 @@ const AddCategory = () => {
   const [name, setName] = useState('');
   const [url, setURL] = useState('');
   const [submitSuccess, setSubmitSuccess] = useState('');
-  const [altError, setAltError] = useState<string | unknown>('');
+  const [altError, setAltError] = useState('');
   const [createCategory, { loading, error }] = useMutation(CREATE_CATEGORY, {
     client: client,
     refetchQueries: [{ query: GET_CATEGORIES }],
@@ -41,7 +40,7 @@ const AddCategory = () => {
   let textStyle = customStyles.neutralButtonText;
 
   switch (true) {
-    case altError:
+    case altError.length > 0:
       buttonStyle = customStyles.disabledButton;
       textStyle = customStyles.disabledButtonText;
       break;
@@ -77,7 +76,7 @@ const AddCategory = () => {
         setURL('');
         setTimeout(() => setSubmitSuccess(''), 3000);
       }
-    } catch (error) {
+    } catch (error: any) {
       setAltError(error);
     }
   };
@@ -118,12 +117,12 @@ const AddCategory = () => {
           style={[styles.button, styles.shadow, buttonStyle]}
           onPress={handleCreateCategory}
         >
-          {renderIf(!loading, <Text style={[styles.buttonText, textStyle]}>Submit</Text>)}
-          {renderIf(loading, <ActivityIndicator />)}
+          {!loading && <Text style={[styles.buttonText, textStyle]}>Submit</Text>}
+          {loading && <ActivityIndicator />}
         </TouchableOpacity>
-        {renderIf(error, <Text style={styles.error}>Error: {error?.message}</Text>)}
-        {renderIf(altError, <Text style={styles.error}>Error: {altError as ReactNode}</Text>)}
-        {renderIf(submitSuccess, <Text style={styles.success}>{submitSuccess}</Text>)}
+        {error && <Text style={styles.error}>Error: {error?.message}</Text>}
+        {altError && <Text style={styles.error}>Error: {altError as ReactNode}</Text>}
+        {submitSuccess && <Text style={styles.success}>{submitSuccess}</Text>}
       </View>
     </TouchableWithoutFeedback>
   );

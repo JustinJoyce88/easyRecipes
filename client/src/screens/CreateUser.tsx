@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../reducers';
 import { gql } from '@apollo/client';
-import renderIf from '../utils/renderIf';
 import { setUser } from '../reducers/persist';
 import styles from '../styles/styles';
 import { useMutation } from '@apollo/client';
@@ -155,10 +154,10 @@ const CreateUser = (props: any) => {
             style={[customStyles.button, styles.shadow]}
             onPress={() => handleCreateAccount(username, password)}
           >
-            {renderIf(!loading, <Text style={customStyles.buttonText}>Create Account</Text>)}
-            {renderIf(loading, <ActivityIndicator color={'white'} />)}
+            {!loading && <Text style={customStyles.buttonText}>Create Account</Text>}
+            {loading && <ActivityIndicator color={'white'} />}
           </TouchableOpacity>
-          {renderIf(error, <Text style={styles.error}>Error: {error}</Text>)}
+          {error && <Text style={styles.error}>Error: {error}</Text>}
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

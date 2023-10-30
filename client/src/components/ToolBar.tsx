@@ -32,6 +32,7 @@ const ToolBar = (props: ToolBarProps) => {
     });
 
   const handleProfileBtn = () => {
+    console.log(user)
     if (user && user.admin) {
       navigation.navigate('Add Category');
     }

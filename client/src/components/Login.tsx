@@ -18,7 +18,6 @@ import * as SecureStore from 'expo-secure-store';
 
 import { RootState } from '../reducers';
 import { gql } from '@apollo/client';
-import renderIf from '../utils/renderIf';
 import { setUser } from '../reducers/persist';
 import styles from '../styles/styles';
 import { useMutation } from '@apollo/client';
@@ -115,10 +114,10 @@ const Login = (props: any) => {
             style={[customStyles.button, styles.shadow]}
             onPress={() => handleLogin(username, password)}
           >
-            {renderIf(!loading, <Text style={customStyles.buttonText}>Login</Text>)}
-            {renderIf(loading, <ActivityIndicator color={'white'} />)}
+            {!loading && <Text style={customStyles.buttonText}>Login</Text>}
+            {loading && <ActivityIndicator color={'white'} />}
           </TouchableOpacity>
-          {renderIf(error, <Text style={styles.error}>Error: {error}</Text>)}
+          {error && <Text style={styles.error}>Error: {error}</Text>}
           <TouchableOpacity
             style={[customStyles.button, styles.shadow]}
             onPress={() => navigation.navigate('CreateAccount')}

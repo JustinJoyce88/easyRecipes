@@ -17,7 +17,6 @@ import { Picker } from '@react-native-picker/picker';
 import { RootState } from '../reducers';
 import { checkIfValidUrl } from '../utils/checkIfValidUrl';
 import client from '../api/client';
-import renderIf from '../utils/renderIf';
 import styles from '../styles/styles';
 import { useGetCategories } from '../hooks/useGetCategories';
 import { useSelector } from 'react-redux';
@@ -345,8 +344,7 @@ const CustomSheet = (props: SheetProps) => {
             ]}
             onPress={() => (payload.create ? handleCreateRecipe() : handleupdateRecipe())}
           >
-            {renderIf(
-              !loading,
+            {!loading && (
               <Text
                 style={[
                   styles.buttonText,
@@ -356,10 +354,10 @@ const CustomSheet = (props: SheetProps) => {
                 Submit
               </Text>
             )}
-            {renderIf(loading, <ActivityIndicator />)}
+            {loading && <ActivityIndicator />}
           </TouchableOpacity>
-          {renderIf(error, <Text style={styles.error}>Error: {error?.message}</Text>)}
-          {renderIf(altError, <Text style={styles.error}>Error: {altError as ReactNode}</Text>)}
+          {error && <Text style={styles.error}>Error: {error?.message}</Text>}
+          {altError && <Text style={styles.error}>Error: {altError as ReactNode}</Text>}
         </View>
       </ScrollView>
     </ActionSheet>
