@@ -11,7 +11,7 @@ const Hero = ({ img, opacity }: { img?: string; opacity?: number }) => {
           <Image
             source={require('../../assets/icon.png')}
             style={[customStyles.icon, styles.intenseShadow]}
-            defaultSource={require('../assets/missingImage.png')}
+            defaultSource={require('../assets/missingImage.jpeg')}
           />
           <Text style={[customStyles.text1, styles.intenseShadow]}>Welcome to</Text>
           <Text style={[customStyles.text2, styles.intenseShadow]}>the YumYumHub</Text>
@@ -27,7 +27,7 @@ const Hero = ({ img, opacity }: { img?: string; opacity?: number }) => {
         <Image
           style={[customStyles.heroImage, { opacity }]}
           source={img ? { uri: img } : require('../assets/hero.jpeg')}
-          defaultSource={require('../assets/missingImage.png')}
+          defaultSource={require('../assets/missingImage.jpeg')}
         />
       </View>
       {renderHeroContent()}

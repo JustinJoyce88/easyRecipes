@@ -22,7 +22,7 @@ const CategoryItem = (props: { item: Category; navigation: any }) => {
         <Image
           source={{ uri: image }}
           style={customStyles.categoryImage}
-          defaultSource={require('../assets/missingImage.png')}
+          defaultSource={require('../assets/missingImage.jpeg')}
         />
       </TouchableOpacity>
       <Text style={customStyles.text}>{name}</Text>
